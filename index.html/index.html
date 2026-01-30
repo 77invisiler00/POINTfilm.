@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POINTfilm — Мультфільми та Пес Патрон</title>
+    <title>POINTfilm — Налаштований каталог</title>
     <style>
         :root { --red: #ff0000; --bg: #050505; --card: #111; --blue: #5865F2; }
         body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; }
@@ -11,7 +11,6 @@
         .logo { color: var(--red); font-size: 32px; font-weight: 900; text-decoration: none; letter-spacing: 2px; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         
-        /* Плеєр */
         .player-wrapper { background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 30px; border: 1px solid #222; }
         .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
@@ -19,14 +18,12 @@
 
         h2 { border-left: 5px solid var(--red); padding-left: 15px; margin: 40px 0 20px; color: #eee; }
 
-        /* Сітка карток */
         .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
         .card:hover { transform: scale(1.05); border-color: var(--red); z-index: 10; }
         .card img { width: 100%; height: 150px; object-fit: cover; pointer-events: none; }
         .card-name { padding: 10px; text-align: center; font-size: 14px; font-weight: bold; height: 40px; display: flex; align-items: center; justify-content: center; }
 
-        /* Discord Анімація */
         #discordOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column;
@@ -36,7 +33,7 @@
         .like-emoji { font-size: 100px; animation: bounce 0.5s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-30px); } }
 
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; box-shadow: 0 0 20px rgba(88, 101, 242, 0.5); }
+        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; }
     </style>
 </head>
 <body>
@@ -48,12 +45,16 @@
         <div class="iframe-container">
             <iframe id="mainPlayer" src="https://www.youtube.com/embed/N8pCTdnmn4M" allowfullscreen></iframe>
         </div>
-        <div class="info-bar" id="currentTitle">Думками навиворіт 2</div>
+        <div class="info-bar" id="currentTitle">Патрон</div>
     </div>
 
     <h2>🐾 Пригоди Пса Патрона</h2>
     <div class="movie-grid">
-        <div class="card" onclick="playMovie('Js8-KR7tcEA', 'Пес Патрон: Велика збірка (36 хвилин)')">
+        <div class="card" onclick="playMovie('N8pCTdnmn4M', 'Патрон')">
+            <img src="https://img.youtube.com/vi/N8pCTdnmn4M/maxresdefault.jpg">
+            <div class="card-name">Патрон</div>
+        </div>
+        <div class="card" onclick="playMovie('Js8-KR7tcEA', 'Пес Патрон: Велика збірка')">
             <img src="https://img.youtube.com/vi/Js8-KR7tcEA/maxresdefault.jpg">
             <div class="card-name">Пес Патрон (Всі серії)</div>
         </div>
@@ -61,33 +62,25 @@
             <img src="https://img.youtube.com/vi/RyY0jtWrejI/maxresdefault.jpg">
             <div class="card-name">Патрон: Правило</div>
         </div>
-        <div class="card" onclick="playMovie('I5zkD355ilQ', 'Пес Патрон: Нові пригоди')">
-            <img src="https://img.youtube.com/vi/I5zkD355ilQ/maxresdefault.jpg">
-            <div class="card-name">Патрон: Нове</div>
-        </div>
     </div>
 
     <h2>🎬 Популярні мультфільми</h2>
     <div class="movie-grid">
-        <div class="card" onclick="playMovie('N8pCTdnmn4M', 'Думками навиворіт 2')">
-            <img src="https://img.youtube.com/vi/N8pCTdnmn4M/maxresdefault.jpg">
-            <div class="card-name">Думками навиворіт 2</div>
+        <div class="card" onclick="playMovie('I5zkD355ilQ', 'ідички')">
+            <img src="https://img.youtube.com/vi/I5zkD355ilQ/maxresdefault.jpg">
+            <div class="card-name">ідички</div>
         </div>
-        <div class="card" onclick="playMovie('2MnjrU9IcqQ', 'Стихії')">
+        <div class="card" onclick="playMovie('2MnjrU9IcqQ', 'шпигунка')">
             <img src="https://img.youtube.com/vi/2MnjrU9IcqQ/maxresdefault.jpg">
-            <div class="card-name">Стихії</div>
+            <div class="card-name">шпигунка</div>
         </div>
         <div class="card" onclick="playMovie('6zI1kHbFEaQ', 'Шпигунка (Губка Боб)')">
             <img src="https://img.youtube.com/vi/6zI1kHbFEaQ/maxresdefault.jpg">
-            <div class="card-name">Шпигунка</div>
+            <div class="card-name">Шпигунка (Боб)</div>
         </div>
         <div class="card" onclick="playMovie('hOJYBp19u64', 'Панда Кунг-фу 4')">
             <img src="https://img.youtube.com/vi/hOJYBp19u64/maxresdefault.jpg">
             <div class="card-name">Панда Кунг-фу 4</div>
-        </div>
-        <div class="card" onclick="playMovie('qQlr9-7fzh8', 'Нікчемний я 4')">
-            <img src="https://img.youtube.com/vi/qQlr9-7fzh8/maxresdefault.jpg">
-            <div class="card-name">Нікчемний я 4</div>
         </div>
     </div>
 </div>
