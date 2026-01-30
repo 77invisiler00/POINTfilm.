@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POINTfilm — Admin Panel</title>
+    <title>POINTfilm — Admin Panel & Link Support</title>
     <style>
         :root { --red: #ff0000; --bg: #050505; --card: #111; --blue: #5865F2; --purple: #8a2be2; }
         body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; }
         
-        /* Адмін-кнопка */
-        .admin-trigger { background: var(--purple); height: 40px; width: 120px; margin: 10px auto; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
-        .admin-trigger:hover { opacity: 0.8; transform: scale(1.05); }
-
         /* Адмін-панель */
-        #adminPanel { display: none; background: #222; padding: 20px; border: 2px solid var(--purple); border-radius: 10px; max-width: 400px; margin: 10px auto; text-align: center; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); z-index: 2000; box-shadow: 0 0 50px rgba(0,0,0,1); }
-        #adminPanel input { width: 90%; padding: 10px; margin: 5px 0; border-radius: 5px; border: none; }
-        #adminPanel button { background: var(--purple); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .admin-trigger { background: var(--purple); height: 40px; width: 140px; margin: 10px auto; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; font-size: 14px; }
+        #adminPanel { display: none; background: #1a1a1a; padding: 20px; border: 2px solid var(--purple); border-radius: 10px; max-width: 400px; margin: 10px auto; text-align: center; position: fixed; top: 15%; left: 50%; transform: translateX(-50%); z-index: 2000; box-shadow: 0 0 50px rgba(0,0,0,1); }
+        #adminPanel input { width: 90%; padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid #333; background: #000; color: white; }
+        .admin-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px; }
+        .admin-btns button { border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-add { background: var(--purple); color: white; }
+        .btn-del-mode { background: #d32f2f; color: white; }
+        .btn-close { background: #555; color: white; }
+
+        /* Видалення */
+        .delete-badge { display: none; position: absolute; top: 10px; right: 10px; background: red; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; z-index: 100; cursor: pointer; border: 2px solid white; font-size: 18px; }
+        .edit-mode .delete-badge { display: block; }
+        .edit-mode .card:hover { transform: none; border-color: red; }
 
         header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid var(--red); position: sticky; top: 0; z-index: 1000; }
         .logo { color: var(--red); font-size: 32px; font-weight: 900; text-decoration: none; letter-spacing: 2px; }
@@ -27,9 +33,8 @@
         .info-bar { padding: 20px; background: #111; font-size: 22px; font-weight: bold; border-top: 1px solid #222; }
 
         h2 { border-left: 5px solid var(--red); padding-left: 15px; margin: 40px 0 20px; color: #eee; }
-
         .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; position: relative; }
         .card:hover { transform: scale(1.05); border-color: var(--red); z-index: 10; }
         .card img { width: 100%; height: 150px; object-fit: cover; pointer-events: none; }
         .card-name { padding: 10px; text-align: center; font-size: 14px; font-weight: bold; height: 40px; display: flex; align-items: center; justify-content: center; }
@@ -39,8 +44,7 @@
         .white-strayk { color: var(--blue); font-size: 45px; font-weight: bold; margin-top: 20px; }
         .like-emoji { font-size: 100px; animation: bounce 0.5s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
-
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; box-shadow: 0 0 20px rgba(88, 101, 242, 0.5); }
+        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; }
     </style>
 </head>
 <body>
@@ -48,17 +52,20 @@
 <div class="admin-trigger" onclick="openAdmin()">Admin Panel</div>
 
 <div id="adminPanel">
-    <h3>Додати мультик</h3>
-    <input type="text" id="newTitle" placeholder="Назва">
-    <input type="text" id="newID" placeholder="YouTube ID (наприклад: N8pCTdnmn4M)">
-    <input type="text" id="newImg" placeholder="Посилання на картинку">
-    <button onclick="addMovie()">Додати на сайт</button>
-    <button onclick="closeAdmin()" style="background:gray;">Закрити</button>
+    <h3>Панель керування</h3>
+    <input type="text" id="newTitle" placeholder="Назва мультика">
+    <input type="text" id="newLink" placeholder="Посилання YouTube або ID">
+    <input type="text" id="newImg" placeholder="URL картинки (необов'язково)">
+    <div class="admin-btns">
+        <button class="btn-add" onclick="addMovie()">Додати</button>
+        <button class="btn-del-mode" onclick="toggleDeleteMode()">Видалення (On/Off)</button>
+        <button class="btn-close" onclick="closeAdmin()">Закрити панель</button>
+    </div>
 </div>
 
 <header><a href="#" class="logo">POINTFILM</a></header>
 
-<div class="container">
+<div class="container" id="mainContent">
     <div class="player-wrapper">
         <div class="iframe-container">
             <iframe id="mainPlayer" src="https://www.youtube.com/embed/N8pCTdnmn4M" allowfullscreen></iframe>
@@ -68,37 +75,39 @@
 
     <h2>🐾 Пригоди Пса Патрона</h2>
     <div class="movie-grid" id="patronGrid">
-        <div class="card" onclick="playMovie('N8pCTdnmn4M', 'Патрон')">
-            <img src="https://img.youtube.com/vi/N8pCTdnmn4M/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/N8pCTdnmn4M/maxresdefault.jpg" onclick="playMovie('N8pCTdnmn4M', 'Патрон')">
             <div class="card-name">Патрон</div>
         </div>
-        <div class="card" onclick="playMovie('Js8-KR7tcEA', 'Пес Патрон: Велика збірка')">
-            <img src="https://img.youtube.com/vi/Js8-KR7tcEA/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/Js8-KR7tcEA/maxresdefault.jpg" onclick="playMovie('Js8-KR7tcEA', 'Пес Патрон: Велика збірка')">
             <div class="card-name">Пес Патрон (Всі серії)</div>
         </div>
-        <div class="card" onclick="playMovie('RyY0jtWrejI', 'Пес Патрон: Правило Патрона')">
-            <img src="https://img.youtube.com/vi/RyY0jtWrejI/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/RyY0jtWrejI/maxresdefault.jpg" onclick="playMovie('RyY0jtWrejI', 'Пес Патрон: Правило Патрона')">
             <div class="card-name">Патрон: Правило</div>
         </div>
     </div>
 
     <h2>🎬 Популярні мультфільми</h2>
     <div class="movie-grid" id="popularGrid">
-        <div class="card" onclick="playMovie('I5zkD355ilQ', 'ідички')">
-            <img src="https://img.youtube.com/vi/I5zkD355ilQ/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/I5zkD355ilQ/maxresdefault.jpg" onclick="playMovie('I5zkD355ilQ', 'ідички')">
             <div class="card-name">ідички</div>
         </div>
-        <div class="card" onclick="playMovie('2MnjrU9IcqQ', 'шпигунка')">
-            <img src="https://img.youtube.com/vi/2MnjrU9IcqQ/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/2MnjrU9IcqQ/maxresdefault.jpg" onclick="playMovie('2MnjrU9IcqQ', 'шпигунка')">
             <div class="card-name">шпигунка</div>
         </div>
-        <div class="card" onclick="playMovie('6zI1kHbFEaQ', 'Шпигунка (Губка Боб)')">
-            <img src="https://img.youtube.com/vi/6zI1kHbFEaQ/maxresdefault.jpg">
+        <div class="card">
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="https://img.youtube.com/vi/6zI1kHbFEaQ/maxresdefault.jpg" onclick="playMovie('6zI1kHbFEaQ', 'Шпигунка (Губка Боб)')">
             <div class="card-name">Шпигунка (Боб)</div>
-        </div>
-        <div class="card" onclick="playMovie('hOJYBp19u64', 'Панда Кунг-фу 4')">
-            <img src="https://img.youtube.com/vi/hOJYBp19u64/maxresdefault.jpg">
-            <div class="card-name">Панда Кунг-фу 4</div>
         </div>
     </div>
 </div>
@@ -120,45 +129,71 @@
     }
 
     function goToDiscord() {
-        const overlay = document.getElementById('discordOverlay');
-        overlay.style.display = 'flex';
-        // Тепер перенаправляє автоматично!
-        setTimeout(() => {
-            window.location.href = "https://discord.gg/RBdCxYdA"; 
-        }, 2000);
+        document.getElementById('discordOverlay').style.display = 'flex';
+        setTimeout(() => { window.location.href = "https://discord.gg/RBdCxYdA"; }, 2000);
     }
 
-    // ЛОГІКА АДМІНКИ
+    // Допоміжна функція для витягування ID з посилання
+    function extractVideoID(url) {
+        const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : url;
+    }
+
     function openAdmin() {
         let pass = prompt("Введіть пароль:");
         if (pass === "lol demid509") {
             document.getElementById('adminPanel').style.display = 'block';
-        } else {
-            alert("Пароль невірний!");
-        }
+        } else { alert("Невірно!"); }
     }
 
     function closeAdmin() {
         document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('mainContent').classList.remove('edit-mode');
+    }
+
+    function toggleDeleteMode() {
+        document.getElementById('mainContent').classList.toggle('edit-mode');
+    }
+
+    function deleteCard(btn) {
+        if(confirm("Видалити цей мультик?")) {
+            btn.parentElement.remove();
+        }
     }
 
     function addMovie() {
-        let title = document.getElementById('newTitle').value;
-        let id = document.getElementById('newID').value;
+        const title = document.getElementById('newTitle').value;
+        const rawLink = document.getElementById('newLink').value;
         let img = document.getElementById('newImg').value;
 
-        if (title && id && img) {
-            let grid = document.getElementById('popularGrid');
-            let newCard = document.createElement('div');
-            newCard.className = 'card';
-            newCard.onclick = function() { playMovie(id, title); };
-            newCard.innerHTML = `<img src="${img}"><div class="card-name">${title}</div>`;
-            grid.prepend(newCard); // Додає на початок списку
-            alert("Додано!");
-            closeAdmin();
-        } else {
-            alert("Заповніть всі поля!");
+        if (!title || !rawLink) {
+            alert("Введіть назву та посилання!");
+            return;
         }
+
+        const videoID = extractVideoID(rawLink);
+        
+        // Якщо картинка порожня, ставимо стандартну від YouTube
+        if (!img) {
+            img = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        }
+
+        const grid = document.getElementById('popularGrid');
+        const newCard = document.createElement('div');
+        newCard.className = 'card';
+        newCard.innerHTML = `
+            <div class="delete-badge" onclick="deleteCard(this)">X</div>
+            <img src="${img}" onclick="playMovie('${videoID}', '${title}')">
+            <div class="card-name">${title}</div>
+        `;
+        grid.prepend(newCard);
+        
+        // Очищення полів
+        document.getElementById('newTitle').value = "";
+        document.getElementById('newLink').value = "";
+        document.getElementById('newImg').value = "";
+        alert("Додано успішно!");
     }
 </script>
 
