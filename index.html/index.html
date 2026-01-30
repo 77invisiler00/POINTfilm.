@@ -3,37 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POINTfilm — Мультфільми 2026</title>
+    <title>POINTfilm — Усі мультфільми</title>
     <style>
         :root { --red: #ff0000; --bg: #050505; --card: #111; }
         body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; }
         header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid var(--red); position: sticky; top: 0; z-index: 1000; }
         .logo { color: var(--red); font-size: 32px; font-weight: 900; text-decoration: none; letter-spacing: 2px; }
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         
         .player-wrapper { background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 30px; border: 1px solid #222; }
         .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .info-bar { padding: 20px; background: #111; font-size: 22px; font-weight: bold; border-top: 1px solid #222; }
 
-        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .card { background: var(--card); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #333; }
-        .card:hover { transform: translateY(-5px); border-color: var(--red); }
-        .card img { width: 100%; height: 160px; object-fit: cover; pointer-events: none; }
-        .card-name { padding: 15px; text-align: center; font-size: 16px; font-weight: bold; }
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
+        .card:hover { transform: scale(1.05); border-color: var(--red); z-index: 10; }
+        .card img { width: 100%; height: 280px; object-fit: cover; pointer-events: none; }
+        .card-name { padding: 10px; text-align: center; font-size: 14px; font-weight: bold; height: 40px; display: flex; align-items: center; justify-content: center; }
 
-        /* Discord анімація */
+        /* Discord Overlay */
         #discordOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column;
             align-items: center; justify-content: center;
         }
-        .white-strayk { color: #5865F2; font-size: 40px; font-weight: bold; margin-top: 20px; }
-        .like-emoji { font-size: 80px; animation: bounce 0.6s infinite alternate; }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+        .white-strayk { color: #5865F2; font-size: 45px; font-weight: bold; margin-top: 20px; font-style: italic; }
+        .like-emoji { font-size: 100px; animation: bounce 0.5s infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-30px); } }
 
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: #5865F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; }
-        .discord-btn svg { width: 40px; fill: white; }
+        .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: #5865F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; box-shadow: 0 0 20px rgba(88, 101, 242, 0.5); }
     </style>
 </head>
 <body>
@@ -64,9 +63,29 @@
             <div class="card-name">Шпигунка</div>
         </div>
 
-        <div class="card" onclick="playMovie('6zI1kHbFEaQ', 'Губка Боб')">
-            <img src="https://img.youtube.com/vi/6zI1kHbFEaQ/0.jpg">
-            <div class="card-name">Губка Боб</div>
+        <div class="card" onclick="playMovie('hOJYBp19u64', 'Панда Кунг-фу 4')">
+            <img src="https://img.youtube.com/vi/hOJYBp19u64/maxresdefault.jpg">
+            <div class="card-name">Панда Кунг-фу 4</div>
+        </div>
+
+        <div class="card" onclick="playMovie('qQlr9-7fzh8', 'Нікчемний я 4')">
+            <img src="https://img.youtube.com/vi/qQlr9-7fzh8/maxresdefault.jpg">
+            <div class="card-name">Нікчемний я 4</div>
+        </div>
+
+        <div class="card" onclick="playMovie('62U_C_YJk6A', 'Міньйони: Становлення Грю')">
+            <img src="https://img.youtube.com/vi/62U_C_YJk6A/maxresdefault.jpg">
+            <div class="card-name">Міньйони</div>
+        </div>
+
+        <div class="card" onclick="playMovie('shW9i6k8cB0', 'Людина-павук: Крізь Всесвіт')">
+            <img src="https://img.youtube.com/vi/shW9i6k8cB0/maxresdefault.jpg">
+            <div class="card-name">Людина-павук</div>
+        </div>
+
+        <div class="card" onclick="playMovie('RqrXhwS33Ic', 'Кіт у чоботях 2: Останнє бажання')">
+            <img src="https://img.youtube.com/vi/RqrXhwS33Ic/maxresdefault.jpg">
+            <div class="card-name">Кіт у чоботях 2</div>
         </div>
     </div>
 </div>
@@ -77,7 +96,7 @@
 </div>
 
 <div class="discord-btn" onclick="goToDiscord()">
-    <svg viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.06,72.06,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.78,56.63.48,80.1a105.73,105.73,0,0,0,32.22,16.26,77.7,77.7,0,0,0,6.89-11.11,68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.24-16.27C129.38,51.24,121.81,27.5,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+    <svg width="40" viewBox="0 0 127.14 96.36" fill="white"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.06,72.06,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.78,56.63.48,80.1a105.73,105.73,0,0,0,32.22,16.26,77.7,77.7,0,0,0,6.89-11.11,68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.24-16.27C129.38,51.24,121.81,27.5,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
 </div>
 
 <script>
@@ -97,4 +116,4 @@
 </script>
 
 </body>
-</html>
+</html> 
