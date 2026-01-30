@@ -7,35 +7,23 @@
     <style>
         :root { --red: #ff0000; --bg: #050505; --card: #111; --blue: #5865F2; --purple: #8a2be2; }
         body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 100px; }
-        
-        /* Адмінка */
         .admin-trigger { background: var(--purple); height: 40px; width: 140px; margin: 10px auto; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         #adminPanel { display: none; background: #1a1a1a; padding: 20px; border: 2px solid var(--purple); border-radius: 10px; max-width: 400px; margin: 10px auto; text-align: center; position: fixed; top: 15%; left: 50%; transform: translateX(-50%); z-index: 2000; box-shadow: 0 0 50px #000; }
         #adminPanel input { width: 90%; padding: 10px; margin: 5px 0; border-radius: 5px; background: #000; color: white; border: 1px solid #333; }
-        
         header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid var(--red); position: sticky; top: 0; z-index: 1000; }
         .logo { color: var(--red); font-size: 32px; font-weight: 900; text-decoration: none; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
-        
-        /* Плеєр */
         .player-wrapper { background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #222; }
         .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .info-bar { padding: 20px; background: #111; font-size: 22px; font-weight: bold; }
-
-        /* Сітка */
-        h2 { border-left: 5px solid var(--red); padding-left: 15px; margin: 40px 0 20px; }
         .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; transition: 0.3s; border: 1px solid #222; }
         .card:hover { border-color: var(--red); transform: scale(1.03); }
-        .card img { width: 100%; height: 150px; object-fit: cover; pointer-events: none; }
+        .card img { width: 100%; height: 150px; object-fit: cover; }
         .card-name { padding: 10px; text-align: center; font-size: 14px; font-weight: bold; }
-        
         .delete-btn { display: none; position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; z-index: 10; font-weight: bold; }
         .edit-mode .delete-btn { display: block; }
-
-        /* Discord */
-        #discordOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
         .discord-btn { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; cursor: pointer; border: 2px solid white; }
     </style>
 </head>
@@ -48,9 +36,9 @@
     <input type="text" id="addName" placeholder="Назва мультика">
     <input type="text" id="addLink" placeholder="Посилання YouTube">
     <div style="display:flex; gap:10px; justify-content: center; margin-top:10px;">
-        <button onclick="saveToCloud()" style="background:var(--purple); color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Додати всюди</button>
-        <button onclick="toggleEdit()" style="background:red; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Видалити</button>
-        <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:#444; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Закрити</button>
+        <button onclick="saveToCloud()" style="background:var(--purple); color:white; border:none; padding:10px; border-radius:5px;">Додати</button>
+        <button onclick="toggleEdit()" style="background:red; color:white; border:none; padding:10px; border-radius:5px;">Видалення</button>
+        <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:#444; color:white; border:none; padding:10px; border-radius:5px;">Закрити</button>
     </div>
 </div>
 
@@ -71,20 +59,13 @@
     <div class="movie-grid" id="popularGrid"></div>
 </div>
 
-<div id="discordOverlay">
-    <h1 style="color:#5865F2">WhiteStrayk</h1>
-    <div style="font-size:100px;">👍</div>
-</div>
-
-<div class="discord-btn" onclick="openDiscord()">
+<div class="discord-btn" onclick="window.location.href='https://discord.gg/RBdCxYdA'">
     <svg width="40" viewBox="0 0 127.14 96.36" fill="white"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.06,72.06,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.78,56.63.48,80.1a105.73,105.73,0,0,0,32.22,16.26,77.7,77.7,0,0,0,6.89-11.11,68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.24-16.27C129.38,51.24,121.81,27.5,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
 </div>
 
 <script>
-    // СЮДИ ВСТАВ СВОЄ ПОСИЛАННЯ З FIREBASE
     const DB_URL = "https://pointfilm-964c0-default-rtdb.firebaseio.com/movies.json";
 
-    // Функція отримання ID з будь-якого посилання YouTube
     function getID(url) {
         const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = url.match(regExp);
@@ -95,24 +76,20 @@
         try {
             const response = await fetch(DB_URL);
             const data = await response.json();
-            const movies = data ? Object.entries(data) : [];
-            render(movies);
-        } catch (e) { console.error("Помилка бази", e); }
+            render(data ? Object.entries(data) : []);
+        } catch (e) { console.error("Database error", e); }
     }
 
     function render(movies) {
         const pGrid = document.getElementById('patronGrid');
         const mGrid = document.getElementById('popularGrid');
         pGrid.innerHTML = ''; mGrid.innerHTML = '';
-
         movies.forEach(([key, v]) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.innerHTML = `
-                <button class="delete-btn" onclick="deleteFromCloud('${key}')">X</button>
+            card.innerHTML = `<button class="delete-btn" onclick="deleteFromCloud('${key}')">X</button>
                 <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" onclick="play('${v.id}', '${v.name}')">
-                <div class="card-name">${v.name}</div>
-            `;
+                <div class="card-name">${v.name}</div>`;
             if(v.name.toLowerCase().includes('патрон')) pGrid.appendChild(card);
             else mGrid.appendChild(card);
         });
@@ -122,22 +99,16 @@
         const name = document.getElementById('addName').value;
         const link = document.getElementById('addLink').value;
         const id = getID(link);
-
         if(name && id) {
-            await fetch(DB_URL, {
-                method: 'POST',
-                body: JSON.stringify({ name, id })
-            });
-            document.getElementById('addName').value = "";
-            document.getElementById('addLink').value = "";
+            await fetch(DB_URL, { method: 'POST', body: JSON.stringify({ name, id }) });
+            document.getElementById('addName').value = ""; document.getElementById('addLink').value = "";
             syncData();
-        } else { alert("Заповни назву і посилання!"); }
+        }
     }
 
     async function deleteFromCloud(key) {
-        if(confirm("Видалити цей мультик всюди?")) {
-            const delUrl = DB_URL.replace('.json', `/${key}.json`);
-            await fetch(delUrl, { method: 'DELETE' });
+        if(confirm("Видалити всюди?")) {
+            await fetch(DB_URL.replace('.json', `/${key}.json`), { method: 'DELETE' });
             syncData();
         }
     }
@@ -148,20 +119,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function checkAdmin() {
-        if(prompt("Пароль:") === "lol demid509") document.getElementById('adminPanel').style.display = 'block';
-    }
-
+    function checkAdmin() { if(prompt("Пароль:") === "lol demid509") document.getElementById('adminPanel').style.display = 'block'; }
     function toggleEdit() { document.getElementById('mainZone').classList.toggle('edit-mode'); }
-
-    function openDiscord() {
-        document.getElementById('discordOverlay').style.display = 'flex';
-        setTimeout(() => { window.location.href = "https://discord.gg/RBdCxYdA"; }, 2000);
-    }
-
-    // Оновлюємо кожні 5 секунд, щоб бачити зміни на іншому пристрої
     setInterval(syncData, 5000);
 </script>
 </body>
-</html> 
-
+</html>
